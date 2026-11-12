@@ -1,0 +1,29 @@
+<div class="page-header">
+  <h1>Student Details</h1>
+  <a class="btn" routerLink="/students">&larr; Back to list</a>
+</div>
+
+@if (loading()) {
+  <div class="loading"><span class="spinner"></span> Loading student...</div>
+} @else if (errorMessage()) {
+  <div class="card">
+    <p class="error-text">{{ errorMessage() }}</p>
+  </div>
+} @else if (student(); as s) {
+  <div class="card">
+    <dl class="details">
+      <div><dt>ID</dt><dd>{{ s.id }}</dd></div>
+      <div><dt>First name</dt><dd>{{ s.firstName }}</dd></div>
+      <div><dt>Last name</dt><dd>{{ s.lastName }}</dd></div>
+      <div><dt>Email</dt><dd>{{ s.email }}</dd></div>
+      <div><dt>Phone number</dt><dd>{{ s.phoneNumber }}</dd></div>
+      <div><dt>Department</dt><dd>{{ s.department }}</dd></div>
+      <div><dt>Course</dt><dd>{{ s.course }}</dd></div>
+      <div><dt>Gender</dt><dd>{{ s.gender }}</dd></div>
+      <div><dt>Date of birth</dt><dd>{{ s.dateOfBirth | date: 'longDate' }}</dd></div>
+    </dl>
+    <div class="form-actions">
+      <a class="btn btn-primary" [routerLink]="['/students', s.id, 'edit']">Edit</a>
+    </div>
+  </div>
+}

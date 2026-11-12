@@ -1,0 +1,20 @@
+<header class="navbar">
+  <div class="container navbar-inner">
+    <a class="brand" routerLink="/students">Student Management</a>
+    <nav>
+      <a routerLink="/students" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Students</a>
+      <a routerLink="/students/new" routerLinkActive="active">Add Student</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  @if (notifications.current(); as note) {
+    <div class="alert" [class.alert-success]="note.type === 'success'" [class.alert-error]="note.type === 'error'" role="alert">
+      <span>{{ note.text }}</span>
+      <button type="button" class="alert-close" (click)="notifications.clear()" aria-label="Close message">&times;</button>
+    </div>
+  }
+
+  <router-outlet />
+</main>

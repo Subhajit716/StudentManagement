@@ -1,0 +1,114 @@
+<div class="page-header">
+  <h1>{{ isEditMode() ? 'Edit Student' : 'Add Student' }}</h1>
+  <a class="btn" routerLink="/students">&larr; Back to list</a>
+</div>
+
+@if (loading()) {
+  <div class="loading"><span class="spinner"></span> Loading student...</div>
+} @else if (loadError()) {
+  <div class="card">
+    <p class="error-text">{{ loadError() }}</p>
+  </div>
+} @else {
+  <form class="card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label for="firstName">First name</label>
+        <input id="firstName" type="text" formControlName="firstName" [class.invalid]="isInvalid('firstName')" />
+        @if (isInvalid('firstName')) {
+          <small class="field-error">
+            @if (hasError('firstName', 'required')) { First name is required. }
+            @else if (hasError('firstName', 'maxlength')) { First name can have at most 50 characters. }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input id="lastName" type="text" formControlName="lastName" [class.invalid]="isInvalid('lastName')" />
+        @if (isInvalid('lastName')) {
+          <small class="field-error">
+            @if (hasError('lastName', 'required')) { Last name is required. }
+            @else if (hasError('lastName', 'maxlength')) { Last name can have at most 50 characters. }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" [class.invalid]="isInvalid('email')" />
+        @if (isInvalid('email')) {
+          <small class="field-error">
+            @if (hasError('email', 'required')) { Email is required. }
+            @else if (hasError('email', 'email')) { Enter a valid email address. }
+            @else if (hasError('email', 'maxlength')) { Email can have at most 100 characters. }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone number</label>
+        <input id="phoneNumber" type="tel" formControlName="phoneNumber" placeholder="9876543210" [class.invalid]="isInvalid('phoneNumber')" />
+        @if (isInvalid('phoneNumber')) {
+          <small class="field-error">
+            @if (hasError('phoneNumber', 'required')) { Phone number is required. }
+            @else if (hasError('phoneNumber', 'pattern')) { Use 10 to 15 digits (optional leading +). }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="department">Department</label>
+        <input id="department" type="text" formControlName="department" [class.invalid]="isInvalid('department')" />
+        @if (isInvalid('department')) {
+          <small class="field-error">
+            @if (hasError('department', 'required')) { Department is required. }
+            @else if (hasError('department', 'maxlength')) { Department can have at most 100 characters. }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="course">Course</label>
+        <input id="course" type="text" formControlName="course" [class.invalid]="isInvalid('course')" />
+        @if (isInvalid('course')) {
+          <small class="field-error">
+            @if (hasError('course', 'required')) { Course is required. }
+            @else if (hasError('course', 'maxlength')) { Course can have at most 100 characters. }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" formControlName="gender" [class.invalid]="isInvalid('gender')">
+          <option value="" disabled>Select gender</option>
+          @for (g of genders; track g) {
+            <option [value]="g">{{ g }}</option>
+          }
+        </select>
+        @if (isInvalid('gender')) {
+          <small class="field-error">Please select a gender.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <input id="dateOfBirth" type="date" formControlName="dateOfBirth" [max]="today" [class.invalid]="isInvalid('dateOfBirth')" />
+        @if (isInvalid('dateOfBirth')) {
+          <small class="field-error">Date of birth is required.</small>
+        }
+      </div>
+
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="saving()">
+        @if (saving()) { <span class="spinner spinner-small"></span> Saving... }
+        @else { {{ isEditMode() ? 'Update Student' : 'Add Student' }} }
+      </button>
+      <a class="btn" routerLink="/students">Cancel</a>
+    </div>
+  </form>
+}

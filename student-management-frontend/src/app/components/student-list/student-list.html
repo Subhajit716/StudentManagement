@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h1>Students</h1>
+  <a class="btn btn-primary" routerLink="/students/new">+ Add Student</a>
+</div>
+
+@if (loading()) {
+  <div class="loading"><span class="spinner"></span> Loading students...</div>
+} @else if (errorMessage()) {
+  <div class="card">
+    <p class="error-text">{{ errorMessage() }}</p>
+    <button type="button" class="btn" (click)="loadStudents()">Try again</button>
+  </div>
+} @else {
+  <div class="card table-wrapper">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Course</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (student of students(); track student.id) {
+          <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.firstName }} {{ student.lastName }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.department }}</td>
+            <td>{{ student.course }}</td>
+            <td class="actions">
+              <a class="btn btn-small" [routerLink]="['/students', student.id]">View</a>
+              <a class="btn btn-small" [routerLink]="['/students', student.id, 'edit']">Edit</a>
+              <button type="button" class="btn btn-small btn-danger" (click)="deleteStudent(student)">Delete</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty">No students yet. Click "Add Student" to create the first one.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
